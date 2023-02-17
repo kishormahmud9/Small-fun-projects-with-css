@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #080b14;
+  color: #eef1f8;
+}
+
+::selection {
+  background: #b06bff;
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #080b14;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.22);
+  border-radius: 10px;
+}
+
+@keyframes shimmerBg {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #31d8e0;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+@layer components {
+  .glass {
+    @apply bg-gradient-to-b from-card-hi to-card border border-border backdrop-blur-xl;
+  }
+
+  .grad-text {
+    @apply bg-grad-1 bg-clip-text text-transparent;
+  }
+
+  .btn {
+    @apply inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-[14.5px] font-semibold transition-all duration-300;
+  }
+  .btn-primary {
+    @apply bg-grad-1 text-white shadow-[0_12px_30px_-10px_rgba(91,140,255,0.55)] hover:-translate-y-0.5 hover:shadow-[0_16px_36px_-8px_rgba(91,140,255,0.7)];
+  }
+  .btn-secondary {
+    @apply border border-border-hi text-text hover:-translate-y-0.5 hover:border-cyan hover:shadow-[0_0_24px_-8px_#31d8e0];
+  }
+
+  .pill-btn {
+    @apply flex items-center gap-1.5 rounded-full border border-border-hi px-3.5 py-2 text-[12.5px] font-semibold text-text-dim transition-colors hover:text-text hover:border-cyan;
+  }
+  .pill-btn-solid {
+    @apply bg-text text-bg border-transparent hover:opacity-90 hover:text-bg;
+  }
+
+  .chip {
+    @apply rounded-full border border-border px-4 py-2 text-[13px] font-medium text-text-dim transition-colors hover:text-text hover:border-border-hi;
+  }
+  .chip-active {
+    @apply bg-grad-1 text-white border-transparent shadow-[0_6px_18px_-6px_rgba(91,140,255,0.6)];
+  }
+}

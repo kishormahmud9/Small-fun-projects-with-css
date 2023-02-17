@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS Lab — Creative CSS Experiments &amp; Frontend Playground</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080b14;
+  --bg-soft:#0d1220;
+  --card:#121729;
+  --card-hi:#161d33;
+  --border:rgba(148,163,184,0.10);
+  --border-hi:rgba(148,163,184,0.22);
+  --text:#eef1f8;
+  --text-dim:#9aa4bb;
+  --text-faint:#5f6a84;
+  --blue:#5b8cff;
+  --purple:#b06bff;
+  --cyan:#31d8e0;
+  --pink:#ff5da2;
+  --grad-1: linear-gradient(135deg, var(--blue), var(--purple));
+  --grad-2: linear-gradient(135deg, var(--cyan), var(--blue));
+  --grad-3: linear-gradient(135deg, var(--purple), var(--pink));
+  --grad-warm: linear-gradient(135deg, var(--pink), #ffb35a);
+  --radius-sm:10px;
+  --radius-md:16px;
+  --radius-lg:24px;
+  --shadow-soft: 0 20px 60px -20px rgba(0,0,0,0.6);
+  --font-display:'Space Grotesk', system-ui, sans-serif;
+  --font-body:'Inter', system-ui, sans-serif;
+  --font-mono:'JetBrains Mono', monospace;
+}
+[data-theme="light"]{
+  --bg:#f6f7fb;
+  --bg-soft:#eef0f7;
+  --card:#ffffff;
+  --card-hi:#ffffff;
+  --border:rgba(15,23,42,0.08);
+  --border-hi:rgba(15,23,42,0.16);
+  --text:#111629;
+  --text-dim:#4b5468;
+  --text-faint:#8891a6;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-body);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  transition:background .4s ease, color .4s ease;
+}
+::selection{ background:var(--purple); color:#fff; }
+a{ color:inherit; text-decoration:none; }
+button{ font-family:inherit; cursor:pointer; border:none; background:none; color:inherit; }
+img{ max-width:100%; display:block; }
+.container{ width:100%; max-width:1240px; margin:0 auto; padding:0 24px; }
+h1,h2,h3,h4{ font-family:var(--font-display); letter-spacing:-0.02em; }
+::-webkit-scrollbar{ width:10px; height:10px; }
+::-webkit-scrollbar-track{ background:var(--bg); }
+::-webkit-scrollbar-thumb{ background:var(--border-hi); border-radius:10px; }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+}
+
+/* Focus visibility */
+a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible{
+  outline:2px solid var(--cyan);
+  outline-offset:3px;
+  border-radius:6px;
+}
+
+/* Reading progress bar */
+.progress-bar{
+  position:fixed; top:0; left:0; height:3px; width:0%;
+  background:var(--grad-1); z-index:1000; transition:width .1s ease;
+}
+
+/* ===== Glass utility ===== */
+.glass{
+  background:linear-gradient(180deg, var(--card-hi), var(--card));
+  border:1px solid var(--border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* ===== Nav ===== */
+.nav-wrap{
+  position:fixed; top:16px; left:0; right:0; z-index:100;
+  display:flex; justify-content:center; padding:0 20px;
+}
+.nav{
+  width:100%; max-width:1100px;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 18px;
+  border-radius:100px;
+  background:rgba(13,18,32,0.65);
+  border:1px solid var(--border-hi);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  box-shadow:0 10px 40px -12px rgba(0,0,0,.5);
+  transition: background .4s ease;
+}
+[data-theme="light"] .nav{ background:rgba(255,255,255,0.75); }
+.logo{
+  display:flex; align-items:center; gap:10px;
+  font-family:var(--font-display); font-weight:700; font-size:17px;
+}
+.logo-mark{
+  width:30px; height:30px; border-radius:9px;
+  background:var(--grad-1);
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-mono); font-size:13px; font-weight:700; color:#fff;
+  box-shadow:0 0 24px -4px var(--blue);
+}
+.nav-links{ display:flex; align-items:center; gap:4px; }
+.nav-links a{
+  font-size:14px; font-weight:500; color:var(--text-dim);
+  padding:8px 14px; border-radius:100px; transition:.25s;
+}
+.nav-links a:hover{ color:var(--text); background:var(--border); }
+.nav-right{ display:flex; align-items:center; gap:10px; }
+.icon-btn{
+  width:36px; height:36px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  border:1px solid var(--border-hi); color:var(--text-dim);
+  transition:.25s;
+}
+.icon-btn:hover{ color:var(--text); border-color:var(--cyan); box-shadow:0 0 16px -4px var(--cyan); }
+.btn-gh{
+  display:flex; align-items:center; gap:8px;
+  padding:9px 16px; border-radius:100px;
+  background:var(--text); color:var(--bg);
+  font-size:13.5px; font-weight:600;
+  transition:.25s;
+}
+.btn-gh:hover{ transform:translateY(-1px); box-shadow:0 8px 20px -6px rgba(0,0,0,.5); }
+@media (max-width:860px){ .nav-links{ display:none; } }
+
+/* ===== Hero ===== */
+.hero{
+  position:relative;
+  min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  padding:140px 24px 100px;
+  overflow:hidden;
+  isolation:isolate;
+}
+.hero-bg{ position:absolute; inset:0; z-index:-2; }
+.hero-grid{
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size:64px 64px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 10%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 10%, transparent 75%);
+}
+.blob{
+  position:absolute; border-radius:50%;
+  filter:blur(90px); opacity:.55; z-index:-1;
+  animation: float-blob 16s ease-in-out infinite;
+}
+.blob-1{ width:420px; height:420px; background:var(--blue); top:-120px; left:8%; animation-delay:0s;}
+.blob-2{ width:380px; height:380px; background:var(--purple); top:20px; right:6%; animation-delay:-5s;}
+.blob-3{ width:320px; height:320px; background:var(--pink); bottom:-100px; left:38%; animation-delay:-10s;}
+@keyframes float-blob{
+  0%,100%{ transform:translate(0,0) scale(1); }
+  33%{ transform:translate(30px,-40px) scale(1.08); }
+  66%{ transform:translate(-25px,25px) scale(0.95); }
+}
+
+/* Signature element: ambient CSS syntax particles drifting behind the hero,
+   since the entire site is a museum of CSS itself */
+.css-particles{ position:absolute; inset:0; z-index:-1; pointer-events:none; overflow:hidden; }
+.css-particles span{
+  position:absolute;
+  font-family:var(--font-mono);
+  font-size:13px;
+  color:var(--text-faint);
+  opacity:.35;
+  white-space:nowrap;
+  animation: drift-up linear infinite;
+}
+[data-theme="light"] .css-particles span{ opacity:.28; }
+@keyframes drift-up{
+  from{ transform:translateY(10vh) translateX(0); opacity:0; }
+  10%{ opacity:.4; }
+  90%{ opacity:.4; }
+  to{ transform:translateY(-110vh) translateX(20px); opacity:0; }
+}
+
+.hero-inner{ position:relative; z-index:1; max-width:820px; text-align:center; margin:0 auto; }
+.eyebrow{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:7px 14px; border-radius:100px;
+  font-size:12.5px; font-weight:600; letter-spacing:.02em;
+  color:var(--text-dim);
+  margin-bottom:28px;
+}
+.eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:var(--cyan); box-shadow:0 0 10px 2px var(--cyan); }
+.hero h1{
+  font-size:clamp(2.6rem, 6.5vw, 5rem);
+  font-weight:700; line-height:1.04;
+  margin-bottom:24px;
+}
+.hero h1 .grad{
+  background:var(--grad-1);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.hero p{
+  font-size:18px; color:var(--text-dim); max-width:600px; margin:0 auto 40px;
+  line-height:1.65;
+}
+.hero-ctas{ display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap; }
+.btn{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:14px 26px; border-radius:100px;
+  font-size:14.5px; font-weight:600;
+  transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease, border-color .25s ease;
+}
+.btn-primary{
+  background:var(--grad-1); color:#fff;
+  box-shadow:0 12px 30px -10px rgba(91,140,255,.55);
+}
+.btn-primary:hover{ transform:translateY(-2px); box-shadow:0 16px 36px -8px rgba(91,140,255,.7); }
+.btn-secondary{
+  border:1px solid var(--border-hi); color:var(--text);
+}
+.btn-secondary:hover{ border-color:var(--cyan); box-shadow:0 0 24px -8px var(--cyan); transform:translateY(-2px); }
+
+.hero-meta{
+  margin-top:56px; display:flex; align-items:center; justify-content:center;
+  gap:28px; flex-wrap:wrap; color:var(--text-faint); font-size:13px;
+}
+.hero-meta span{ display:flex; align-items:center; gap:6px; }
+
+/* ===== Section shared ===== */
+section{ position:relative; padding:100px 0; }
+.section-head{ max-width:640px; margin-bottom:52px; }
+.section-tag{
+  font-family:var(--font-mono); font-size:12.5px; color:var(--cyan);
+  margin-bottom:14px; display:block; letter-spacing:.03em;
+}
+.section-head h2{ font-size:clamp(1.8rem,3.5vw,2.6rem); font-weight:700; margin-bottom:14px; }
+.section-head p{ color:var(--text-dim); font-size:16px; line-height:1.6; }
+.reveal{ opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+.reveal.in{ opacity:1; transform:translateY(0); }
+
+/* ===== Stats ===== */
+.stats-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+.stat-card{
+  padding:28px 24px; border-radius:var(--radius-md);
+  text-align:left; transition:.3s;
+}
+.stat-card:hover{ border-color:var(--border-hi); transform:translateY(-3px); }
+.stat-num{ font-family:var(--font-display); font-size:2.4rem; font-weight:700; }
+.stat-num .grad{ background:var(--grad-2); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.stat-label{ color:var(--text-dim); font-size:13.5px; margin-top:6px; }
+@media (max-width:860px){ .stats-grid{ grid-template-columns:repeat(2,1fr); } }
+
+/* ===== Search & filter ===== */
+.search-wrap{
+  position:sticky; top:86px; z-index:50;
+  padding:18px 22px; border-radius:var(--radius-lg);
+  margin-bottom:44px;
+}
+.search-row{ display:flex; gap:12px; align-items:center; }
+.search-box{
+  flex:1; display:flex; align-items:center; gap:10px;
+  background:var(--bg-soft); border:1px solid var(--border);
+  border-radius:100px; padding:11px 18px;
+  transition:.25s;
+}
+.search-box:focus-within{ border-color:var(--blue); box-shadow:0 0 0 4px rgba(91,140,255,.15); }
+.search-box svg{ flex-shrink:0; color:var(--text-faint); }
+.search-box input{
+  flex:1; background:none; border:none; outline:none; color:var(--text);
+  font-size:14.5px; font-family:var(--font-body);
+}
+.search-box input::placeholder{ color:var(--text-faint); }
+.kbd{
+  font-family:var(--font-mono); font-size:11px; color:var(--text-faint);
+  border:1px solid var(--border-hi); border-radius:6px; padding:2px 7px;
+}
+.filter-row{ display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+.chip{
+  padding:8px 15px; border-radius:100px; font-size:13px; font-weight:500;
+  border:1px solid var(--border); color:var(--text-dim);
+  transition:.22s;
+}
+.chip:hover{ color:var(--text); border-color:var(--border-hi); }
+.chip.active{
+  background:var(--grad-1); color:#fff; border-color:transparent;
+  box-shadow:0 6px 18px -6px rgba(91,140,255,.6);
+}
+.sort-select{
+  background:var(--bg-soft); border:1px solid var(--border); color:var(--text-dim);
+  font-size:13px; padding:9px 12px; border-radius:100px; font-family:inherit;
+}
+
+/* ===== Project cards ===== */
+.projects-grid{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:22px;
+}
+@media (max-width:980px){ .projects-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:640px){ .projects-grid{ grid-template-columns:1fr; } }
+
+.card{
+  border-radius:var(--radius-md);
+  overflow:hidden;
+  position:relative;
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease;
+  cursor:pointer;
+}
+.card::before{
+  content:''; position:absolute; inset:0; padding:1px; border-radius:var(--radius-md);
+  background:var(--grad-1);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity:0; transition:opacity .35s ease; pointer-events:none;
+}
+.card:hover{ transform:translateY(-6px); box-shadow:var(--shadow-soft); }
+.card:hover::before{ opacity:1; }
+.card-thumb{
+  position:relative; aspect-ratio:16/10; overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+}
+.card-thumb .thumb-inner{
+  width:100%; height:100%; transition:transform .5s cubic-bezier(.2,.8,.2,1);
+  display:flex; align-items:center; justify-content:center;
+}
+.card:hover .thumb-inner{ transform:scale(1.06); }
+.card-badges{ position:absolute; top:12px; left:12px; display:flex; gap:6px; z-index:2; }
+.badge{
+  font-size:10.5px; font-weight:700; letter-spacing:.03em; text-transform:uppercase;
+  padding:4px 9px; border-radius:100px; backdrop-filter:blur(8px);
+}
+.badge-new{ background:rgba(49,216,224,.18); color:var(--cyan); border:1px solid rgba(49,216,224,.3); }
+.badge-trending{ background:rgba(255,93,162,.18); color:var(--pink); border:1px solid rgba(255,93,162,.3); }
+.badge-featured{ background:rgba(176,107,255,.18); color:var(--purple); border:1px solid rgba(176,107,255,.3); }
+.card-fav{
+  position:absolute; top:12px; right:12px; z-index:2;
+  width:32px; height:32px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(8,11,20,.55); backdrop-filter:blur(8px);
+  color:#fff; border:1px solid rgba(255,255,255,.15);
+  transition:.2s;
+}
+.card-fav:hover{ transform:scale(1.1); }
+.card-fav.faved{ color:var(--pink); }
+.card-body{ padding:20px; }
+.card-top{ display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.card-cat{ font-size:11.5px; color:var(--cyan); font-family:var(--font-mono); }
+.diff{ font-size:10.5px; padding:3px 8px; border-radius:100px; font-weight:600; }
+.diff-beginner{ background:rgba(49,216,224,.14); color:var(--cyan); }
+.diff-intermediate{ background:rgba(91,140,255,.14); color:var(--blue); }
+.diff-advanced{ background:rgba(255,93,162,.14); color:var(--pink); }
+.card h3{ font-size:17px; font-weight:600; margin-bottom:6px; }
+.card p.desc{ font-size:13.5px; color:var(--text-dim); line-height:1.55; margin-bottom:14px; min-height:40px; }
+.card-tags{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px; }
+.tag{
+  font-size:11px; color:var(--text-faint); border:1px solid var(--border);
+  padding:3px 8px; border-radius:6px; font-family:var(--font-mono);
+}
+.card-footer{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.card-actions{ display:flex; gap:8px; }
+.pill-btn{
+  display:flex; align-items:center; gap:6px;
+  font-size:12.5px; font-weight:600; padding:8px 13px; border-radius:100px;
+  border:1px solid var(--border-hi); color:var(--text-dim);
+  transition:.2s;
+}
+.pill-btn:hover{ color:var(--text); border-color:var(--cyan); }
+.pill-btn.solid{ background:var(--text); color:var(--bg); border-color:transparent; }
+.pill-btn.solid:hover{ opacity:.88; color:var(--bg); }
+.card-date{ font-size:11px; color:var(--text-faint); }
+
+/* mini css-art thumbnails (real CSS, no images) */
+.art{ width:100%; height:100%; position:relative; overflow:hidden; }
+.art-blob{ position:relative; width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
+
+/* thumbnail art variants */
+.thumb-1{ background:radial-gradient(circle at 30% 30%, #5b8cff 0%, transparent 60%), radial-gradient(circle at 70% 70%, #b06bff 0%, transparent 60%), var(--bg-soft); }
+.thumb-2{ background:var(--bg-soft); }
+.thumb-2 .glass-panel{ width:70%; height:60%; border-radius:18px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.15); backdrop-filter:blur(10px); }
+.thumb-3{ background:conic-gradient(from 180deg, #5b8cff, #b06bff, #ff5da2, #31d8e0, #5b8cff); filter:saturate(1.1); }
+.thumb-4{ background:var(--bg-soft); display:flex; gap:8px; align-items:center; justify-content:center; }
+.thumb-4 .b{ width:16px; height:16px; border-radius:50%; background:var(--grad-1); animation:bounce-dot 1s ease-in-out infinite; }
+.thumb-4 .b:nth-child(2){ animation-delay:.15s; background:var(--grad-2); }
+.thumb-4 .b:nth-child(3){ animation-delay:.3s; background:var(--grad-3); }
+@keyframes bounce-dot{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-14px);} }
+.thumb-5{ background:linear-gradient(120deg, #0d1220 30%, #1a2036 50%, #0d1220 70%); background-size:200% 100%; animation:shimmer 2.2s linear infinite; }
+@keyframes shimmer{ to{ background-position:-200% 0; } }
+.thumb-6{ background:var(--bg-soft); }
+.thumb-6 .card3d{ width:60%; height:50%; border-radius:14px; background:var(--grad-3); transform:perspective(600px) rotateX(20deg) rotateY(-15deg); box-shadow:0 30px 40px -20px rgba(0,0,0,.6); }
+.thumb-7{ background:radial-gradient(ellipse at center, rgba(91,140,255,.35), transparent 70%), var(--bg-soft); }
+.thumb-7 .ring{ width:56%; aspect-ratio:1; border-radius:50%; border:3px solid transparent; border-top-color:var(--cyan); border-right-color:var(--purple); animation:spin 2s linear infinite; }
+@keyframes spin{ to{ transform:rotate(360deg); } }
+.thumb-8{ background:var(--bg-soft); display:flex; align-items:flex-end; gap:6px; padding:20% 15%; }
+.thumb-8 .bar{ flex:1; background:var(--grad-2); border-radius:6px 6px 0 0; animation:bar-grow 1.6s ease-in-out infinite alternate; }
+.thumb-8 .bar:nth-child(2){ animation-delay:.2s; } .thumb-8 .bar:nth-child(3){ animation-delay:.4s; } .thumb-8 .bar:nth-child(4){ animation-delay:.1s; }
+@keyframes bar-grow{ from{ height:20%; } to{ height:85%; } }
+.thumb-9{ background:var(--bg-soft); }
+.thumb-9 .grid9{ width:70%; height:70%; display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
+.thumb-9 .grid9 span{ border-radius:6px; background:var(--border-hi); }
+.thumb-9 .grid9 span:nth-child(1),.thumb-9 .grid9 span:nth-child(5),.thumb-9 .grid9 span:nth-child(9){ background:var(--grad-1); }
+.thumb-10{ background:var(--bg-soft); }
+.thumb-10 .btn-demo{ padding:10px 20px; border-radius:100px; background:var(--grad-warm); font-size:12px; font-weight:700; color:#1a1220; box-shadow:0 0 30px -6px var(--pink); }
+.thumb-11{ background:var(--bg-soft); position:relative; }
+.thumb-11 .wave{ position:absolute; bottom:0; left:0; width:200%; height:50%; background:var(--grad-2); opacity:.5; border-radius:50% 50% 0 0; animation:wave-move 3s ease-in-out infinite; }
+@keyframes wave-move{ 0%,100%{ transform:translateX(0);} 50%{ transform:translateX(-15%);} }
+.thumb-12{ background:var(--bg-soft); }
+.thumb-12 .nav-mini{ width:70%; padding:10px 14px; border-radius:100px; background:rgba(255,255,255,.06); border:1px solid var(--border-hi); display:flex; gap:6px; }
+.thumb-12 .nav-mini span{ width:6px; height:6px; border-radius:50%; background:var(--text-faint); }
+
+/* ===== Categories ===== */
+.cat-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+@media (max-width:900px){ .cat-grid{ grid-template-columns:repeat(2,1fr); } }
+.cat-card{
+  padding:26px 22px; border-radius:var(--radius-md);
+  display:flex; flex-direction:column; gap:14px;
+  transition:.3s;
+}
+.cat-card:hover{ transform:translateY(-4px); border-color:var(--border-hi); }
+.cat-icon{
+  width:44px; height:44px; border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--grad-1); color:#fff;
+}
+.cat-card h4{ font-size:15.5px; font-weight:600; }
+.cat-count{ font-size:12.5px; color:var(--text-faint); }
+
+/* ===== Code snippet ===== */
+.code-panel{ border-radius:var(--radius-lg); overflow:hidden; }
+.code-tabs{ display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid var(--border); }
+.tab-group{ display:flex; gap:4px; }
+.tab-btn{ font-family:var(--font-mono); font-size:12.5px; padding:7px 14px; border-radius:8px; color:var(--text-faint); transition:.2s; }
+.tab-btn:hover{ color:var(--text-dim); }
+.tab-btn.active{ background:var(--bg-soft); color:var(--cyan); }
+.copy-btn{ display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text-dim); padding:6px 12px; border:1px solid var(--border-hi); border-radius:8px; }
+.copy-btn:hover{ color:var(--text); border-color:var(--cyan); }
+.code-body{ padding:24px; font-family:var(--font-mono); font-size:13px; line-height:1.7; overflow-x:auto; }
+.code-body .c-tag{ color:#ff8fb3; } .code-body .c-attr{ color:#7cc4ff; } .code-body .c-str{ color:#a8e6a1; } .code-body .c-prop{ color:#9db4ff; } .code-body .c-val{ color:#ffd28a; } .code-body .c-com{ color:var(--text-faint); font-style:italic; } .code-body .c-sel{ color:#f0568f; }
+.code-pane{ display:none; }
+.code-pane.active{ display:block; }
+
+/* ===== Timeline ===== */
+.timeline{ position:relative; padding-left:36px; }
+.timeline::before{ content:''; position:absolute; left:9px; top:6px; bottom:6px; width:2px; background:linear-gradient(var(--blue), var(--purple), var(--pink)); border-radius:2px; }
+.tl-item{ position:relative; padding-bottom:38px; }
+.tl-item:last-child{ padding-bottom:0; }
+.tl-dot{ position:absolute; left:-36px; top:2px; width:20px; height:20px; border-radius:50%; background:var(--bg); border:2px solid var(--blue); display:flex; align-items:center; justify-content:center; }
+.tl-item.current .tl-dot{ border-color:var(--pink); box-shadow:0 0 0 5px rgba(255,93,162,.15); }
+.tl-dot::after{ content:''; width:8px; height:8px; border-radius:50%; background:var(--blue); }
+.tl-item.current .tl-dot::after{ background:var(--pink); }
+.tl-year{ font-family:var(--font-mono); font-size:12px; color:var(--text-faint); margin-bottom:4px; }
+.tl-item h4{ font-size:16.5px; font-weight:600; margin-bottom:4px; }
+.tl-item p{ color:var(--text-dim); font-size:13.5px; }
+
+/* ===== Dev tools ===== */
+.tools-row{ display:flex; flex-wrap:wrap; gap:14px; }
+.tool-chip{ display:flex; align-items:center; gap:10px; padding:14px 20px; border-radius:100px; font-size:14px; font-weight:500; transition:.25s; }
+.tool-chip:hover{ transform:translateY(-3px); border-color:var(--border-hi); }
+
+/* ===== Testimonials ===== */
+.testi-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+@media (max-width:900px){ .testi-grid{ grid-template-columns:1fr; } }
+.testi-card{ padding:26px; border-radius:var(--radius-md); }
+.testi-quote{ font-size:15px; color:var(--text); line-height:1.6; margin-bottom:20px; }
+.testi-person{ display:flex; align-items:center; gap:12px; }
+.avatar{ width:38px; height:38px; border-radius:50%; background:var(--grad-2); flex-shrink:0; }
+.testi-name{ font-size:13.5px; font-weight:600; }
+.testi-role{ font-size:12px; color:var(--text-faint); }
+
+/* ===== FAQ ===== */
+.faq-list{ display:flex; flex-direction:column; gap:12px; max-width:760px; }
+.faq-item{ border-radius:var(--radius-md); overflow:hidden; }
+.faq-q{ width:100%; display:flex; align-items:center; justify-content:space-between; padding:20px 22px; font-size:15px; font-weight:600; text-align:left; }
+.faq-icon{ transition:transform .3s ease; flex-shrink:0; color:var(--text-faint); }
+.faq-item.open .faq-icon{ transform:rotate(45deg); color:var(--cyan); }
+.faq-a{ max-height:0; overflow:hidden; transition:max-height .35s ease; }
+.faq-a p{ padding:0 22px 20px; color:var(--text-dim); font-size:14px; line-height:1.6; }
+
+/* ===== CTA ===== */
+.cta-box{ border-radius:32px; padding:70px 40px; text-align:center; position:relative; overflow:hidden; }
+.cta-box::before{ content:''; position:absolute; inset:0; background:var(--grad-1); opacity:.15; }
+.cta-box h2{ font-size:clamp(1.8rem,4vw,2.6rem); margin-bottom:16px; position:relative; }
+.cta-box p{ color:var(--text-dim); margin-bottom:32px; position:relative; }
+.cta-btns{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; position:relative; }
+
+/* ===== Footer ===== */
+footer{ border-top:1px solid var(--border); padding:60px 0 30px; }
+.footer-grid{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:40px; margin-bottom:40px; }
+.footer-links{ display:flex; gap:60px; flex-wrap:wrap; }
+.footer-col h5{ font-size:12.5px; color:var(--text-faint); margin-bottom:14px; letter-spacing:.04em; text-transform:uppercase; }
+.footer-col a{ display:block; font-size:14px; color:var(--text-dim); margin-bottom:10px; transition:.2s; }
+.footer-col a:hover{ color:var(--text); }
+.footer-bottom{ display:flex; justify-content:space-between; align-items:center; padding-top:28px; border-top:1px solid var(--border); color:var(--text-faint); font-size:13px; flex-wrap:wrap; gap:12px; }
+
+/* ===== Back to top ===== */
+.back-top{
+  position:fixed; bottom:28px; right:28px; z-index:90;
+  width:46px; height:46px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none; transform:translateY(10px);
+  transition:.3s;
+}
+.back-top.show{ opacity:1; pointer-events:auto; transform:translateY(0); }
+.back-top:hover{ border-color:var(--cyan); box-shadow:0 0 20px -4px var(--cyan); }
+
+/* ===== Modal ===== */
+.modal-overlay{
+  position:fixed; inset:0; z-index:200; background:rgba(4,6,12,.75); backdrop-filter:blur(6px);
+  display:flex; align-items:center; justify-content:center; padding:24px;
+  opacity:0; pointer-events:none; transition:opacity .3s ease;
+}
+.modal-overlay.open{ opacity:1; pointer-events:auto; }
+.modal{
+  width:100%; max-width:760px; max-height:86vh; overflow-y:auto;
+  border-radius:var(--radius-lg); transform:translateY(24px) scale(.98); transition:transform .35s cubic-bezier(.2,.8,.2,1);
+}
+.modal-overlay.open .modal{ transform:translateY(0) scale(1); }
+.modal-hero{ aspect-ratio:16/8; position:relative; }
+.modal-close{ position:absolute; top:16px; right:16px; width:36px; height:36px; border-radius:50%; background:rgba(4,6,12,.55); backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; color:#fff; z-index:2; border:1px solid rgba(255,255,255,.15); }
+.modal-body{ padding:32px; }
+.modal-body h3{ font-size:24px; margin-bottom:10px; }
+.modal-body .mtags{ display:flex; gap:8px; margin:14px 0 20px; flex-wrap:wrap; }
+.modal-body .mdesc{ color:var(--text-dim); font-size:14.5px; line-height:1.7; margin-bottom:24px; }
+.modal-feats{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:24px; }
+.modal-feats li{ list-style:none; font-size:13.5px; color:var(--text-dim); display:flex; gap:8px; align-items:flex-start; }
+.modal-feats li svg{ flex-shrink:0; margin-top:2px; color:var(--cyan); }
+.modal-actions{ display:flex; gap:12px; flex-wrap:wrap; }
+
+@media (max-width:640px){
+  .stats-grid{ grid-template-columns:repeat(2,1fr); }
+  .cat-grid{ grid-template-columns:1fr 1fr; }
+  section{ padding:70px 0; }
+  .search-wrap{ top:78px; }
+}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="nav-wrap">
+  <nav class="nav">
+    <a href="#" class="logo"><span class="logo-mark">&lt;/&gt;</span> CSS Lab</a>
+    <div class="nav-links">
+      <a href="#projects">Projects</a>
+      <a href="#categories">Categories</a>
+      <a href="#journey">About</a>
+      <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+      <a href="#faq">Contact</a>
+    </div>
+    <div class="nav-right">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle color theme">
+        <svg id="themeIcon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <a class="btn-gh" href="https://github.com" target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.36-3.88-1.36-.52-1.34-1.28-1.7-1.28-1.7-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.75 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.05 11.05 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.41-5.25 5.7.42.36.78 1.07.78 2.16 0 1.56-.01 2.82-.01 3.2 0 .31.2.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+        GitHub
+      </a>
+    </div>
+  </nav>
+</div>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-grid"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="css-particles" id="cssParticles"></div>
+  </div>
+  <div class="hero-inner reveal in">
+    <span class="eyebrow glass"><span class="dot"></span> 128 experiments &middot; 14 categories &middot; built in the browser</span>
+    <h1>Creative <span class="grad">CSS</span> Experiments</h1>
+    <p>A curated collection of frontend practice projects, UI components, animations, and creative CSS experiments built during my learning journey — every card on this page is one of them.</p>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn btn-primary">Explore Projects</a>
+      <a href="https://github.com" target="_blank" rel="noopener" class="btn btn-secondary">View GitHub</a>
+    </div>
+    <div class="hero-meta">
+      <span>⌘K to search</span>
+      <span>&middot;</span>
+      <span>No frameworks, just CSS</span>
+      <span>&middot;</span>
+      <span>Updated weekly</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STATS ================= -->
+<section>
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card glass reveal">
+        <div class="stat-num"><span class="grad">128</span></div>
+        <div class="stat-label">Projects built</div>
+      </div>
+      <div class="stat-card glass reveal">
+        <div class="stat-num"><span class="grad">14</span></div>
+        <div class="stat-label">Categories covered</div>
+      </div>
+      <div class="stat-card glass reveal">
+        <div class="stat-num"><span class="grad">3</span></div>
+        <div class="stat-label">Years learning</div>
+      </div>
+      <div class="stat-card glass reveal">
+        <div class="stat-num"><span class="grad">840</span></div>
+        <div class="stat-label">GitHub stars</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SEARCH & FILTER ================= -->
+<section id="projects" style="padding-top:20px;">
+  <div class="container">
+    <div class="search-wrap glass reveal">
+      <div class="search-row">
+        <div class="search-box">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" id="searchInput" placeholder="Search experiments — glassmorphism, buttons, loaders…" aria-label="Search projects">
+          <span class="kbd">Ctrl K</span>
+        </div>
+        <select class="sort-select" id="sortSelect" aria-label="Sort projects">
+          <option value="newest">Newest</option>
+          <option value="oldest">Oldest</option>
+          <option value="popular">Popular</option>
+          <option value="favorites">Favorites</option>
+        </select>
+      </div>
+      <div class="filter-row" id="filterRow"></div>
+    </div>
+
+    <div class="section-head reveal">
+      <span class="section-tag">// featured</span>
+      <h2>Handpicked builds</h2>
+      <p>The experiments I keep sending people when they ask "how did you do that hover effect?"</p>
+    </div>
+    <div class="projects-grid" id="featuredGrid"></div>
+  </div>
+</section>
+
+<!-- ================= ALL PROJECTS ================= -->
+<section style="padding-top:20px;">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">// all_projects.css</span>
+      <h2>Every experiment</h2>
+      <p id="resultCount" class="reveal">Showing all 24 projects</p>
+    </div>
+    <div class="projects-grid" id="allGrid"></div>
+    <div style="display:flex; justify-content:center; margin-top:44px;">
+      <button class="btn btn-secondary glass" id="loadMoreBtn">Load more experiments</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CATEGORIES ================= -->
+<section id="categories">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">// categories</span>
+      <h2>Browse by category</h2>
+      <p>Fourteen corners of frontend craft, each one a rabbit hole worth falling into.</p>
+    </div>
+    <div class="cat-grid" id="catGrid"></div>
+  </div>
+</section>
+
+<!-- ================= CODE SNIPPET ================= -->
+<section>
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">// source</span>
+      <h2>Peek at the code</h2>
+      <p>Every card is real, copyable CSS — no screenshots, no illustrations.</p>
+    </div>
+    <div class="code-panel glass reveal">
+      <div class="code-tabs">
+        <div class="tab-group" role="tablist" aria-label="Code language">
+          <button class="tab-btn active" data-tab="html">HTML</button>
+          <button class="tab-btn" data-tab="css">CSS</button>
+          <button class="tab-btn" data-tab="js">JS</button>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="copy-btn" id="copyCodeBtn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy
+          </button>
+          <a href="#" class="copy-btn">Open Full Source</a>
+        </div>
+      </div>
+      <div class="code-body">
+        <pre class="code-pane active" data-pane="html"><code><span class="c-com">&lt;!-- glass card --&gt;</span>
+<span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-str">"glass-card"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;h3&gt;</span>Frosted Panel<span class="c-tag">&lt;/h3&gt;</span>
+  <span class="c-tag">&lt;p&gt;</span>Hover to see the glow<span class="c-tag">&lt;/p&gt;</span>
+<span class="c-tag">&lt;/div&gt;</span></code></pre>
+        <pre class="code-pane" data-pane="css"><code><span class="c-sel">.glass-card</span> {
+  <span class="c-prop">background</span>: <span class="c-val">rgba(255,255,255,.06)</span>;
+  <span class="c-prop">border</span>: <span class="c-val">1px solid rgba(255,255,255,.15)</span>;
+  <span class="c-prop">backdrop-filter</span>: <span class="c-val">blur(20px)</span>;
+  <span class="c-prop">border-radius</span>: <span class="c-val">16px</span>;
+  <span class="c-prop">transition</span>: <span class="c-val">transform .3s ease</span>;
+}
+<span class="c-sel">.glass-card:hover</span> {
+  <span class="c-prop">transform</span>: <span class="c-val">translateY(-6px)</span>;
+  <span class="c-prop">box-shadow</span>: <span class="c-val">0 20px 40px -10px rgba(91,140,255,.4)</span>;
+}</code></pre>
+        <pre class="code-pane" data-pane="js"><code><span class="c-com">// optional tilt on mouse move</span>
+<span class="c-prop">card</span>.addEventListener(<span class="c-str">'mousemove'</span>, (e) => {
+  <span class="c-com">// compute rotation from cursor position</span>
+  <span class="c-prop">const</span> rx = (e.offsetY / card.clientHeight - <span class="c-val">0.5</span>) * <span class="c-val">-12</span>;
+  card.style.transform = <span class="c-str">'rotateX(' + rx + 'deg)'</span>;
+});</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TIMELINE ================= -->
+<section id="journey">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">// learning_journey.log</span>
+      <h2>How I got here</h2>
+      <p>An honest, unglamorous timeline — the actual order things clicked.</p>
+    </div>
+    <div class="timeline reveal">
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2023 · Jan</div><h4>Started learning HTML</h4><p>Static pages, tables for layout, a lot of trial and error.</p></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2023 · Apr</div><h4>Learned CSS fundamentals</h4><p>Box model, selectors, specificity — and why my layout kept breaking.</p></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2023 · Aug</div><h4>Built the first landing page</h4><p>Ugly, but shipped. Still proud of it.</p></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2024 · Feb</div><h4>Flexbox &amp; Grid</h4><p>The moment layout stopped feeling like a fight.</p></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2024 · Jul</div><h4>Animations &amp; transitions</h4><p>Started this collection to practice motion on purpose.</p></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2025 · Mar</div><h4>Responsive &amp; modern UI</h4><p>Glassmorphism, gradients, and building for every screen.</p></div>
+      <div class="tl-item current"><div class="tl-dot"></div><div class="tl-year">Now</div><h4>Frontend engineer</h4><p>Still experimenting — this site is proof.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DEV TOOLS ================= -->
+<section>
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">// toolbox</span>
+      <h2>Tools I build with</h2>
+    </div>
+    <div class="tools-row reveal" id="toolsRow"></div>
+  </div>
+</section>
+
+<!-- ================= TESTIMONIALS ================= -->
+<section>
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">// feedback</span>
+      <h2>What people say</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card glass reveal">
+        <p class="testi-quote">"This collection helped me finally understand backdrop-filter and glassmorphism without another 40-minute tutorial."</p>
+        <div class="testi-person"><div class="avatar"></div><div><div class="testi-name">Ariana Cole</div><div class="testi-role">Frontend Developer</div></div></div>
+      </div>
+      <div class="testi-card glass reveal">
+        <p class="testi-quote">"Beautiful frontend inspiration — I keep this open in a tab whenever I'm stuck on a hover state."</p>
+        <div class="testi-person"><div class="avatar"></div><div><div class="testi-name">Marcus Webb</div><div class="testi-role">UI Engineer</div></div></div>
+      </div>
+      <div class="testi-card glass reveal">
+        <p class="testi-quote">"Copy-pasteable, well-commented, and none of it feels like a generic component library."</p>
+        <div class="testi-person"><div class="avatar"></div><div><div class="testi-name">Priya Shah</div><div class="testi-role">Design Engineer</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section id="faq">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-tag">// faq</span>
+      <h2>Questions people ask</h2>
+    </div>
+    <div class="faq-list" id="faqList"></div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section>
+  <div class="container">
+    <div class="cta-box glass reveal">
+      <h2>Explore all CSS experiments</h2>
+      <p>128 builds, all open source, all yours to take apart.</p>
+      <div class="cta-btns">
+        <a href="#projects" class="btn btn-primary">Browse Projects</a>
+        <a href="https://github.com" target="_blank" rel="noopener" class="btn btn-secondary">GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="#" class="logo"><span class="logo-mark">&lt;/&gt;</span> CSS Lab</a>
+        <p style="color:var(--text-faint); font-size:13.5px; margin-top:14px; max-width:280px;">A living archive of CSS experiments, built one hover effect at a time.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h5>Explore</h5>
+          <a href="#projects">Projects</a>
+          <a href="#categories">Categories</a>
+          <a href="#journey">Journey</a>
+        </div>
+        <div class="footer-col">
+          <h5>Connect</h5>
+          <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="#">Portfolio</a>
+          <a href="mailto:hello@csslab.dev">Email</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 CSS Lab. All rights reserved.</span>
+      <span>Built with real CSS, no screenshots.</span>
+    </div>
+  </div>
+</footer>
+
+<button class="icon-btn glass back-top" id="backTop" aria-label="Back to top">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 15-6-6-6 6"/></svg>
+</button>
+
+<!-- ================= MODAL ================= -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal glass" id="modalContent"></div>
+</div>
+
+<script>
+/* ============ DATA ============ */
+const CATEGORIES = [
+  {name:'Buttons', icon:'🔘', count:14},
+  {name:'Cards', icon:'🃏', count:11},
+  {name:'Animations', icon:'✨', count:19},
+  {name:'Forms', icon:'📝', count:9},
+  {name:'Loaders', icon:'⏳', count:8},
+  {name:'Navigation', icon:'🧭', count:7},
+  {name:'Flexbox', icon:'📐', count:6},
+  {name:'Grid', icon:'▦', count:10},
+  {name:'Glassmorphism', icon:'🧊', count:12},
+  {name:'CSS Art', icon:'🎨', count:8},
+  {name:'Hover Effects', icon:'👆', count:15},
+  {name:'Landing Pages', icon:'🖥️', count:5},
+  {name:'Gradients', icon:'🌈', count:9},
+  {name:'Dark Mode', icon:'🌙', count:6},
+];
+const FILTER_TAGS = ['All','Cards','Buttons','Animations','Layouts','Glassmorphism','Gradients','Forms','Loaders','Navigation','Effects','Hover','Responsive','Dark Mode','CSS Art'];
+
+const THUMBS = ['thumb-1','thumb-2','thumb-3','thumb-4','thumb-5','thumb-6','thumb-7','thumb-8','thumb-9','thumb-10','thumb-11','thumb-12'];
+function thumbMarkup(cls){
+  const inner = {
+    'thumb-2':'<div class="glass-panel"></div>',
+    'thumb-4':'<div class="b"></div><div class="b"></div><div class="b"></div>',
+    'thumb-6':'<div class="card3d"></div>',
+    'thumb-7':'<div class="ring"></div>',
+    'thumb-8':'<div class="bar" style="height:40%"></div><div class="bar" style="height:65%"></div><div class="bar" style="height:50%"></div><div class="bar" style="height:80%"></div>',
+    'thumb-9':'<div class="grid9">'+ '<span></span>'.repeat(9) +'</div>',
+    'thumb-10':'<div class="btn-demo">Live Demo</div>',
+    'thumb-11':'<div class="wave"></div>',
+    'thumb-12':'<div class="nav-mini"><span></span><span></span><span></span></div>',
+  };
+  return inner[cls] || '';
+}
+
+const NAMES = ['Frosted Glass Panel','Neon Pulse Button','Gradient Loader Ring','Tilt Hover Card','3D Flip Card','Animated Nav Bar','Skeleton Shimmer','CSS-only Accordion','Confetti Burst Button','Aurora Gradient BG','Bento Grid Layout','Magnetic Cursor Button','Liquid Blob Shape','Typewriter Text','Ripple Click Effect','Progress Ring','Toggle Switch Pro','Sticky Scroll Reveal','Parallax Hero','Glow Border Card','Masonry Photo Grid','Animated Checkbox','Circular Nav Menu','Split Text Reveal','Glassmorphic Modal','CSS Grid Dashboard','Bouncy Dot Loader','Underline Hover Link','Radial Stat Chart','Sticky Notes Board'];
+const DESCS = ['A frosted glass surface with layered blur and soft borders.','Pure CSS button with an animated glow ring on hover.','Conic-gradient spinner with smooth easing.','Card that tilts toward the cursor using pointer tracking.','Two-sided card flip built with 3D transforms.','Responsive nav with animated active-state indicator.','Loading placeholder with a moving shimmer gradient.','Expand/collapse panel using the details element.','Playful button that fires a burst of confetti.','Slow-moving gradient background inspired by the aurora.','Asymmetric grid layout for feature showcases.','Button that subtly follows the cursor within its bounds.','Organic blob shape animated with border-radius keyframes.','Text that types itself out using steps() timing.','Material-style ripple on click, no JS required.','SVG-free circular progress using conic-gradient.','Smooth animated switch with spring-like easing.','Section that reveals as it enters the viewport.','Hero with layered parallax on scroll.','Card with an animated gradient border on hover.','Responsive masonry layout for photo grids.','Custom checkbox with a satisfying check animation.','Menu items arranged in a circle, expanding on click.','Heading that splits and reveals letter by letter.','Modal dialog with frosted background and scale-in.','Dashboard layout built entirely with CSS grid areas.','Three dots bouncing in a staggered loop.','Link underline that draws in from the left on hover.','Circular stat visualization using conic-gradient.','Draggable sticky notes styled with soft shadows.'];
+const DIFFS = ['beginner','intermediate','advanced'];
+const CATS_SHORT = ['Buttons','Cards','Animations','Forms','Loaders','Navigation','Glassmorphism','Gradients','CSS Art','Hover Effects','Grid','Dark Mode'];
+const TECH = [['HTML','CSS'],['HTML','CSS','JS'],['HTML','CSS']];
+
+function buildProjects(n){
+  const arr = [];
+  for(let i=0;i<n;i++){
+    const diff = DIFFS[i%3];
+    arr.push({
+      id:i+1,
+      name: NAMES[i%NAMES.length],
+      desc: DESCS[i%DESCS.length],
+      category: CATS_SHORT[i%CATS_SHORT.length],
+      difficulty: diff,
+      tech: TECH[i%3],
+      thumb: THUMBS[i%THUMBS.length],
+      date: `2025-${String((i%12)+1).padStart(2,'0')}-14`,
+      popularity: Math.floor(Math.random()*900)+50,
+      isNew: i%7===0,
+      trending: i%5===0,
+      featured: i%6===0,
+    });
+  }
+  return arr;
+}
+const ALL_PROJECTS = buildProjects(30);
+const FEATURED = ALL_PROJECTS.filter(p=>p.featured).slice(0,3);
+
+let favorites = JSON.parse(localStorage.getItem('csslab_favs') || '[]');
+function toggleFav(id){
+  if(favorites.includes(id)) favorites = favorites.filter(f=>f!==id);
+  else favorites.push(id);
+  localStorage.setItem('csslab_favs', JSON.stringify(favorites));
+}
+
+/* ============ RENDER CARD ============ */
+function cardHTML(p){
+  const badges = [];
+  if(p.isNew) badges.push('<span class="badge badge-new">New</span>');
+  if(p.trending) badges.push('<span class="badge badge-trending">Trending</span>');
+  if(p.featured) badges.push('<span class="badge badge-featured">Featured</span>');
+  const faved = favorites.includes(p.id) ? 'faved' : '';
+  return `
+  <article class="card glass" data-id="${p.id}" data-cat="${p.category}" data-diff="${p.difficulty}" tabindex="0" role="button" aria-label="Open ${p.name}">
+    <div class="card-thumb ${p.thumb}">
+      <div class="card-badges">${badges.join('')}</div>
+      <button class="card-fav ${faved}" data-fav="${p.id}" aria-label="Toggle favorite">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="${favorites.includes(p.id)?'currentColor':'none'}" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+      </button>
+      <div class="thumb-inner">${thumbMarkup(p.thumb)}</div>
+    </div>
+    <div class="card-body">
+      <div class="card-top">
+        <span class="card-cat">${p.category}</span>
+        <span class="diff diff-${p.difficulty}">${p.difficulty}</span>
+      </div>
+      <h3>${p.name}</h3>
+      <p class="desc">${p.desc}</p>
+      <div class="card-tags">${p.tech.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      <div class="card-footer">
+        <div class="card-actions">
+          <span class="pill-btn solid" data-demo="${p.id}">Live Demo</span>
+          <span class="pill-btn" data-src="${p.id}">Source</span>
+        </div>
+      </div>
+    </div>
+  </article>`;
+}
+
+/* ============ MOUNT STATIC SECTIONS ============ */
+document.getElementById('filterRow').innerHTML = FILTER_TAGS.map((t,i)=>`<button class="chip ${i===0?'active':''}" data-filter="${t}">${t}</button>`).join('');
+document.getElementById('featuredGrid').innerHTML = FEATURED.map(cardHTML).join('');
+document.getElementById('catGrid').innerHTML = CATEGORIES.map(c=>`
+  <div class="cat-card glass reveal" tabindex="0">
+    <div class="cat-icon">${c.icon}</div>
+    <h4>${c.name}</h4>
+    <div class="cat-count">${c.count} projects</div>
+  </div>`).join('');
+document.getElementById('toolsRow').innerHTML = ['VS Code','Figma','GitHub','Chrome DevTools','CodePen','CSS Tricks','MDN'].map(t=>`<div class="tool-chip glass">${t}</div>`).join('');
+const FAQS = [
+  ['Can I use these components in my own projects?','Yes — everything here is open source. Grab the code, tweak it, ship it. A credit is appreciated but not required.'],
+  ['Do these experiments use any JavaScript frameworks?','No. Every effect is built with plain HTML and CSS, with a small amount of vanilla JS only where genuinely needed.'],
+  ['How often do you add new experiments?','Roughly one to two new builds a week, usually posted alongside whatever I\'m currently learning.'],
+  ['Can I request a specific effect?','Absolutely — open an issue on GitHub with what you\'re after and I\'ll add it to the queue.'],
+];
+document.getElementById('faqList').innerHTML = FAQS.map((f,i)=>`
+  <div class="faq-item glass">
+    <button class="faq-q" data-faq="${i}">${f[0]}
+      <svg class="faq-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+    </button>
+    <div class="faq-a"><p>${f[1]}</p></div>
+  </div>`).join('');
+
+/* ============ ALL PROJECTS GRID + FILTER/SEARCH/SORT ============ */
+let visibleCount = 9;
+let activeFilter = 'All';
+let searchTerm = '';
+let sortMode = 'newest';
+
+function getFiltered(){
+  let list = ALL_PROJECTS.slice();
+  if(activeFilter !== 'All'){
+    list = list.filter(p => p.category === activeFilter || (activeFilter==='Hover' && p.name.toLowerCase().includes('hover')) || (activeFilter==='Effects' && p.category==='Hover Effects') || (activeFilter==='Layouts' && (p.category==='Grid')) );
+  }
+  if(searchTerm){
+    const s = searchTerm.toLowerCase();
+    list = list.filter(p => p.name.toLowerCase().includes(s) || p.category.toLowerCase().includes(s) || p.desc.toLowerCase().includes(s));
+  }
+  if(sortMode==='newest') list.sort((a,b)=> b.date.localeCompare(a.date));
+  if(sortMode==='oldest') list.sort((a,b)=> a.date.localeCompare(b.date));
+  if(sortMode==='popular') list.sort((a,b)=> b.popularity - a.popularity);
+  if(sortMode==='favorites') list = list.filter(p=>favorites.includes(p.id));
+  return list;
+}
+
+function renderGrid(){
+  const list = getFiltered();
+  document.getElementById('resultCount').textContent = `Showing ${Math.min(visibleCount,list.length)} of ${list.length} projects`;
+  document.getElementById('allGrid').innerHTML = list.slice(0,visibleCount).map(cardHTML).join('');
+  document.getElementById('loadMoreBtn').style.display = visibleCount >= list.length ? 'none' : 'inline-flex';
+  bindCardEvents();
+}
+document.getElementById('filterRow').addEventListener('click', e=>{
+  const btn = e.target.closest('.chip');
+  if(!btn) return;
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  activeFilter = btn.dataset.filter;
+  visibleCount = 9;
+  renderGrid();
+});
+document.getElementById('searchInput').addEventListener('input', e=>{
+  searchTerm = e.target.value;
+  visibleCount = 9;
+  renderGrid();
+});
+document.getElementById('sortSelect').addEventListener('change', e=>{
+  sortMode = e.target.value;
+  renderGrid();
+});
+document.getElementById('loadMoreBtn').addEventListener('click', ()=>{
+  visibleCount += 9;
+  renderGrid();
+});
+document.addEventListener('keydown', e=>{
+  if((e.ctrlKey || e.metaKey) && e.key.toLowerCase()==='k'){
+    e.preventDefault();
+    document.getElementById('searchInput').focus();
+  }
+});
+
+/* ============ CARD EVENTS (fav, modal) ============ */
+function bindCardEvents(){
+  document.querySelectorAll('[data-fav]').forEach(btn=>{
+    btn.onclick = (e)=>{
+      e.stopPropagation();
+      const id = parseInt(btn.dataset.fav);
+      toggleFav(id);
+      btn.classList.toggle('faved');
+      const svg = btn.querySelector('svg');
+      svg.setAttribute('fill', favorites.includes(id) ? 'currentColor' : 'none');
+    };
+  });
+  document.querySelectorAll('.card').forEach(card=>{
+    card.onclick = (e)=>{
+      if(e.target.closest('[data-fav]')) return;
+      openModal(parseInt(card.dataset.id));
+    };
+    card.onkeydown = (e)=>{ if(e.key==='Enter') openModal(parseInt(card.dataset.id)); };
+  });
+}
+bindCardEvents();
+renderGrid();
+
+/* ============ MODAL ============ */
+const overlay = document.getElementById('modalOverlay');
+function openModal(id){
+  const p = ALL_PROJECTS.find(x=>x.id===id);
+  if(!p) return;
+  document.getElementById('modalContent').innerHTML = `
+    <div class="modal-hero ${p.thumb}">
+      <button class="modal-close" id="modalClose" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="thumb-inner" style="width:100%;height:100%;">${thumbMarkup(p.thumb)}</div>
+    </div>
+    <div class="modal-body">
+      <h3>${p.name}</h3>
+      <div class="mtags">
+        <span class="tag">${p.category}</span>
+        <span class="diff diff-${p.difficulty}">${p.difficulty}</span>
+        ${p.tech.map(t=>`<span class="tag">${t}</span>`).join('')}
+      </div>
+      <p class="mdesc">${p.desc} Built as a focused, single-purpose experiment — copy the markup, drop in the CSS, and adapt the custom properties to fit your palette.</p>
+      <ul class="modal-feats">
+        <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Pure CSS, no dependencies</li>
+        <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Fully responsive</li>
+        <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Reduced-motion aware</li>
+        <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Keyboard accessible</li>
+      </ul>
+      <div class="modal-actions">
+        <a href="#" class="btn btn-primary">Live Demo</a>
+        <a href="https://github.com" target="_blank" rel="noopener" class="btn btn-secondary">Source Code</a>
+      </div>
+    </div>`;
+  overlay.classList.add('open');
+  document.body.style.overflow='hidden';
+  document.getElementById('modalClose').onclick = closeModal;
+}
+function closeModal(){
+  overlay.classList.remove('open');
+  document.body.style.overflow='';
+}
+overlay.addEventListener('click', e=>{ if(e.target===overlay) closeModal(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+
+/* ============ CODE TABS ============ */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.code-pane').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelector(`.code-pane[data-pane="${btn.dataset.tab}"]`).classList.add('active');
+  });
+});
+document.getElementById('copyCodeBtn').addEventListener('click', ()=>{
+  const active = document.querySelector('.code-pane.active');
+  navigator.clipboard.writeText(active.innerText).then(()=>{
+    const btn = document.getElementById('copyCodeBtn');
+    const old = btn.innerHTML;
+    btn.innerHTML = 'Copied!';
+    setTimeout(()=> btn.innerHTML = old, 1400);
+  });
+});
+
+/* ============ FAQ ACCORDION ============ */
+document.querySelectorAll('.faq-q').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const item = btn.closest('.faq-item');
+    const answer = item.querySelector('.faq-a');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>{ i.classList.remove('open'); i.querySelector('.faq-a').style.maxHeight=null; });
+    if(!isOpen){ item.classList.add('open'); answer.style.maxHeight = answer.scrollHeight+'px'; }
+  });
+});
+
+/* ============ THEME TOGGLE ============ */
+const root = document.documentElement;
+function setTheme(t){
+  if(t==='light') root.setAttribute('data-theme','light'); else root.removeAttribute('data-theme');
+  localStorage.setItem('csslab_theme', t);
+}
+setTheme(localStorage.getItem('csslab_theme') || 'dark');
+document.getElementById('themeToggle').addEventListener('click', ()=>{
+  const isLight = root.getAttribute('data-theme')==='light';
+  setTheme(isLight ? 'dark' : 'light');
+});
+
+/* ============ PROGRESS BAR + BACK TO TOP ============ */
+window.addEventListener('scroll', ()=>{
+  const h = document.documentElement;
+  const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+  document.getElementById('progressBar').style.width = scrolled + '%';
+  document.getElementById('backTop').classList.toggle('show', h.scrollTop > 600);
+});
+document.getElementById('backTop').addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+
+/* ============ SCROLL REVEAL ============ */
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+}, {threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
+new MutationObserver(()=>{
+  document.querySelectorAll('.card:not(.in)').forEach(el=>{ el.classList.add('reveal'); io.observe(el); });
+}).observe(document.getElementById('allGrid'), {childList:true});
+
+/* ============ HERO CSS PARTICLES ============ */
+const SNIPPETS = ['border-radius: 50%','backdrop-filter: blur(20px)','transform: translateY(-6px)','@keyframes float','display: flex','grid-template-columns','box-shadow: 0 20px 40px','transition: all .3s ease','clip-path: circle()','mix-blend-mode: screen','filter: blur(90px)',':hover { }'];
+const pWrap = document.getElementById('cssParticles');
+for(let i=0;i<14;i++){
+  const s = document.createElement('span');
+  s.textContent = SNIPPETS[i % SNIPPETS.length];
+  s.style.left = (Math.random()*90+2) + '%';
+  s.style.animationDuration = (14 + Math.random()*10) + 's';
+  s.style.animationDelay = (Math.random()*-20) + 's';
+  s.style.fontSize = (11 + Math.random()*4) + 'px';
+  pWrap.appendChild(s);
+}
+
+/* ============ HERO PARALLAX ============ */
+document.querySelector('.hero').addEventListener('mousemove', (e)=>{
+  const {innerWidth:w, innerHeight:h} = window;
+  const x = (e.clientX / w - 0.5) * 20;
+  const y = (e.clientY / h - 0.5) * 20;
+  document.querySelectorAll('.blob').forEach((b,i)=>{
+    b.style.transform = `translate(${x*(i+1)*0.4}px, ${y*(i+1)*0.4}px)`;
+  });
+});
+</script>
+</body>
+</html>
