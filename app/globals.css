@@ -2,42 +2,68 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ================================================================
+   GLOBAL DARK THEME FOUNDATION
+   ================================================================ */
+
 html {
   scroll-behavior: smooth;
+  color-scheme: dark;
 }
 
 body {
-  background: #080b14;
-  color: #eef1f8;
+  background-color: #09090b;
+  color: #f4f4f5;
+  font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* ================================================================
+   SELECTION & SCROLLBAR
+   ================================================================ */
+
 ::selection {
-  background: #b06bff;
-  color: #fff;
+  background: #38bdf8;
+  color: #09090b;
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #080b14;
+  background: #09090b;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.22);
-  border-radius: 10px;
+  background: #27272a;
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
 }
 
-@keyframes shimmerBg {
-  to {
-    background-position: -200% 0;
-  }
+/* ================================================================
+   FOCUS RINGS (ACCESSIBILITY)
+   ================================================================ */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 2px;
+  border-radius: 8px;
 }
+
+/* ================================================================
+   REDUCED MOTION
+   ================================================================ */
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -45,45 +71,152 @@ body {
   }
 }
 
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-[tabindex]:focus-visible {
-  outline: 2px solid #31d8e0;
-  outline-offset: 3px;
-  border-radius: 6px;
+/* ================================================================
+   COMPONENT UTILITIES
+   ================================================================ */
+
+/* Glass card surface */
+.glass-card {
+  background: rgba(18, 18, 21, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
-@layer components {
-  .glass {
-    @apply bg-gradient-to-b from-card-hi to-card border border-border backdrop-blur-xl;
-  }
+/* Gradient text shimmer */
+.gradient-text {
+  background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc, #38bdf8);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmerSlide 4s linear infinite;
+}
 
-  .grad-text {
-    @apply bg-grad-1 bg-clip-text text-transparent;
-  }
+/* Premium glow border */
+.glow-border {
+  position: relative;
+}
+.glow-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+.glow-border:hover::before {
+  opacity: 1;
+}
 
-  .btn {
-    @apply inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-[14.5px] font-semibold transition-all duration-300;
-  }
-  .btn-primary {
-    @apply bg-grad-1 text-white shadow-[0_12px_30px_-10px_rgba(91,140,255,0.55)] hover:-translate-y-0.5 hover:shadow-[0_16px_36px_-8px_rgba(91,140,255,0.7)];
-  }
-  .btn-secondary {
-    @apply border border-border-hi text-text hover:-translate-y-0.5 hover:border-cyan hover:shadow-[0_0_24px_-8px_#31d8e0];
-  }
+/* Code line highlight */
+.code-line-highlight {
+  background: rgba(56, 189, 248, 0.08);
+  border-left: 2px solid #38bdf8;
+}
 
-  .pill-btn {
-    @apply flex items-center gap-1.5 rounded-full border border-border-hi px-3.5 py-2 text-[12.5px] font-semibold text-text-dim transition-colors hover:text-text hover:border-cyan;
-  }
-  .pill-btn-solid {
-    @apply bg-text text-bg border-transparent hover:opacity-90 hover:text-bg;
-  }
+/* Stagger animation children */
+.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 80ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 160ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 240ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 320ms; }
+.stagger-children > *:nth-child(6) { animation-delay: 400ms; }
+.stagger-children > *:nth-child(7) { animation-delay: 480ms; }
+.stagger-children > *:nth-child(8) { animation-delay: 560ms; }
+.stagger-children > *:nth-child(9) { animation-delay: 640ms; }
 
-  .chip {
-    @apply rounded-full border border-border px-4 py-2 text-[13px] font-medium text-text-dim transition-colors hover:text-text hover:border-border-hi;
-  }
-  .chip-active {
-    @apply bg-grad-1 text-white border-transparent shadow-[0_6px_18px_-6px_rgba(91,140,255,0.6)];
+/* Project card grid appear animation */
+.project-card-appear {
+  animation: fadeUp 0.45s ease-out both;
+}
+
+/* Noise texture overlay (subtle) */
+.noise-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0.3;
+}
+
+/* ================================================================
+   KEYFRAMES (used by globals + tailwind)
+   ================================================================ */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes shimmerSlide {
+  0% { background-position: 0% center; }
+  100% { background-position: 300% center; }
+}
+
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.2); }
+  100% { box-shadow: 0 0 40px rgba(56, 189, 248, 0.6); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Legacy shimmerBg for Thumb component */
+@keyframes shimmerBg {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ================================================================
+   SYNTAX HIGHLIGHTING (for code editor)
+   ================================================================ */
+
+.token-selector { color: #f59e0b; }
+.token-property { color: #38bdf8; }
+.token-value { color: #a78bfa; }
+.token-comment { color: #4b5563; font-style: italic; }
+.token-string { color: #34d399; }
+.token-number { color: #fb7185; }
+.token-tag { color: #f472b6; }
+.token-attr { color: #38bdf8; }
+.token-punct { color: #6b7280; }
+
+/* ================================================================
+   PREVIEW IFRAME CONTAINER
+   ================================================================ */
+
+.preview-scale-wrapper {
+  transform-origin: top left;
+  width: 1280px;
+  height: 720px;
+}
+
+/* Mobile-safe tap targets */
+@media (pointer: coarse) {
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
   }
 }

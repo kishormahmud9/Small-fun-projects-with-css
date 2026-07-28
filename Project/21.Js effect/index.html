@@ -1,0 +1,52 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <title>Document</title>
+     <link rel="stylesheet" href="style.css">
+ </head>
+ <body>
+     
+     <div class="contact" id="contact">
+         <h2 onClick="toggleClass()">Get in touch with us <span>+</span></h2>
+         <form action="">
+             <div class="row">
+                 <div class="col-2">
+                     <label for="">First Name</label>
+                     <input type="text" name="" class="text" placeholder="Jhon">
+                 </div>
+                 <div class="col-2">
+                     <label for="">Last Name</label>
+                     <input type="text" name="" class="text" placeholder="Snow">
+                 </div>
+                 <div class="col-2">
+                     <label for="">Email</label>
+                     <input type="email" name="" class="text" placeholder="example@gmail.com">
+                 </div>
+                 <div class="col-2">
+                     <label for="">Telephone</label>
+                     <input type="number" name="" class="text" placeholder="+880 1745 30933">
+                 </div>
+             </div>
+             <div class="row">
+                 <div class="col-1">
+                     <label for="">Your Messege</label>
+                     <textarea name="" id="" cols="" rows="" placeholder="Write Your messege"></textarea>
+                 </div>
+             </div>
+             <div class="row">
+                 <div class="col-1">
+                     <input type="submit" value="Send Messege">
+                 </div>
+             </div>
+         </form>
+     </div>
+     
+     <script type="text/javascript">
+        function toggleClass(){
+            var element = document.getElementById('contact');
+            element.classList.toggle("active")
+        }
+     </script>
+ </body>
+ </html>

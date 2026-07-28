@@ -1,0 +1,228 @@
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body
+{
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    min-height: 100vh;
+    flex-wrap:wrap;
+    background-color: #fff;
+    
+}
+.container{
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    min-height: 100vh;
+    flex-wrap:wrap;
+}
+.a
+{
+    background: red;
+    height: 200px;
+    width: 200px;
+    margin: auto;
+    position: relative;
+    transition: 0.5 ease-in-out;
+}
+
+.b
+{
+    background: cyan;
+    height: 100px;
+    width: 100px;
+    float: left;
+    position: relative;
+    top: 100%;
+    left: 50%;
+}
+.c
+{
+    background: #ffbe76;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    overflow: hidden;
+    bottom: 100%;
+    right: 50%
+}
+.d
+{
+    background: #ff7979;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    overflow: hidden;
+    top: 100%;
+    right: 50%
+}
+.e
+{
+    background: #badc58;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    overflow: hidden;
+    bottom: 100%;
+    left: 50%
+}
+.f
+{
+    background: #6D214F;
+    height: 100px;
+    width: 100px;
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    left: 100%;
+}
+.g
+{
+    background: #22a6b3;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    overflow: hidden;
+    bottom: 50%;
+    right: 100%
+}
+.h
+{
+    background-color: #be2edd;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    overflow: hidden;
+    top: 50%;
+    right: 100%
+}
+.i
+{
+    background-color: #4834d4;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    overflow: hidden;
+    bottom: 50%;
+    left: 100%
+}
+.j
+{
+    background: #130f40;
+    height: 100px;
+    width: 100px;
+    overflow: hidden;
+    position: absolute;
+    top: 100%;
+    left: 100%;
+}
+.k
+{
+    background: #535c68;
+    height: 100px;
+    width: 100px;
+    overflow: hidden;
+    position: absolute;
+    top: 100%;
+    right: 100%;
+}
+.l
+{
+    background: #000;
+    height: 100px;
+    width: 100px;
+    float: left;
+    position: absolute;
+    bottom: 100%;
+    left: 100%;
+}
+.m
+{
+    background: #574b90;
+    height: 100px;
+    width: 100px;
+    float: left;
+    position: absolute;
+    bottom: 100%;
+    right: 100%;
+}
+
+
+
+
+.a:hover .b 
+{
+    background: cyan;
+    transform: translateX(100px);
+    transition: 2s;
+}
+.a:hover .c 
+{
+    background: #ffbe76;
+    transform: translateX(-100px);
+    transition: 2s;
+}
+.a:hover .d 
+{
+    background: #ff7979;
+    transform: translateX(100px);
+    transition: 2s;
+}
+.a:hover .e 
+{
+    background: #badc58;
+    transform: translateX(-100px);
+    transition: 2s;
+}
+.a:hover .f 
+{
+    background: #6D214F;
+    transform: translateY(-100px);
+    transition: 2s;
+}
+.a:hover .g 
+{
+    background: #22a6b3;
+    transform: translateY(100px);
+    transition: 2s;
+}
+.a:hover .h 
+{
+    background: #be2edd;
+    transform: translateY(100px);
+    transition: 2s;
+}
+.a:hover .i
+{
+    background: #4834d4;
+    transform: translateY(-100px);
+    transition: 2s;
+}.a:hover .j
+{
+    background: #130f40;
+    transform: translateY(-100px);
+    transition: 2s;
+}
+.a:hover .k
+{
+    background: #535c68;
+    transform: translateX(100px);
+    transition: 2s;
+}
+.a:hover .l
+{
+    background: #000;
+    transform: translateX(-100px);
+    transition: 2s;
+}
+.a:hover .m
+{
+    background: #574b90;
+    transform: translateY(100px);
+    transition: 2s;
+}

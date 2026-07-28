@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Client testimonial</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <style>
+    
+        *
+        {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: arial;
+        }
+        section
+        {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #2196f3;
+            overflow: hidden;
+        }
+        .swiper-container 
+        {
+              width: 100%;
+              padding-top: 50px;
+              padding-bottom: 50px;
+        }
+
+        .swiper-slide 
+        {
+              background-position: center;
+              background-size: cover;
+              width: 320px;
+            background: #1c2f3a;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.2);
+            filter: blur(2px);
+            border-radius: 10px;
+        }
+        .swiper-slide-active
+        {
+            filter: blur(0);
+            background: #fff;
+        }
+        .swiper-slide .quote
+        {
+            height: 50px;
+        }
+        .swiper-slide .details img
+        {
+            height: 100%;
+            width: 100%;
+        }
+        .testimonialBox
+        {
+            position: relative;
+            width: 100%;
+            padding: 40px;
+            padding-top: 90px;
+            color: #999;
+        }
+        .testimonialBox .quote
+        {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            opacity: 0.2;
+        }
+        .testimonialBox .details
+        {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .testimonialBox .details .imgBx
+        {
+            position: relative;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 10px;
+        }
+        .swiper-slide .testimonialBox .details .imgBx img
+        {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+        .testimonialBox .details h3
+        {
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            color: #2196f3;
+            line-height: 1.1em;
+        }
+        .testimonialBox .details h3 span
+        {
+            font-size: 12px;
+            color: #666;
+        }
+        .swiper-container .swiper-slide-left,
+        .swiper-container .swiper-slide-right
+        {
+            background-image: none;
+        }
+        
+    </style>
+</head>
+<body>
+    
+    <section>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="testimonialBox">
+                        <img src="157248.svg" class="quote" alt="">
+                        <div class="content">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit, aliquid laborum sit numquam dolorum, quidem. Aliquid, quasi distinctio itaque dolores perferendis error eaque ab libero a, vero veritatis minus ducimus. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore, doloribus. Lorem ipsum.</p>
+                            <div class="details">
+                                <div class="imgBx">
+                                    <img src="img1.jpg" alt="">
+                                </div>
+                                <h3>Someone famous <br><span>Creative Designer</span></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="testimonialBox">
+                        <img src="157248.svg" class="quote" alt="">
+                        <div class="content">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit, aliquid laborum sit numquam dolorum, quidem. Aliquid, quasi distinctio itaque dolores perferendis error eaque ab libero a, vero veritatis minus ducimus. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore, doloribus. Lorem ipsum.</p>
+                            <div class="details">
+                                <div class="imgBx">
+                                    <img src="img2.jpg" alt="">
+                                </div>
+                                <h3>Someone famous <br><span>Creative Designer</span></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="testimonialBox">
+                        <img src="157248.svg" class="quote" alt="">
+                        <div class="content">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit, aliquid laborum sit numquam dolorum, quidem. Aliquid, quasi distinctio itaque dolores perferendis error eaque ab libero a, vero veritatis minus ducimus. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore, doloribus. Lorem ipsum.</p>
+                            <div class="details">
+                                <div class="imgBx">
+                                    <img src="img3.jpg" alt="">
+                                </div>
+                                <h3>Someone famous <br><span>Creative Designer</span></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="testimonialBox">
+                        <img src="157248.svg" class="quote" alt="">
+                        <div class="content">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit, aliquid laborum sit numquam dolorum, quidem. Aliquid, quasi distinctio itaque dolores perferendis error eaque ab libero a, vero veritatis minus ducimus. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore, doloribus. Lorem ipsum.</p>
+                            <div class="details">
+                                <div class="imgBx">
+                                    <img src="img4.jpg" alt="">
+                                </div>
+                                <h3>Someone famous <br><span>Creative Designer</span></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="testimonialBox">
+                        <img src="157248.svg" class="quote" alt="">
+                        <div class="content">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit, aliquid laborum sit numquam dolorum, quidem. Aliquid, quasi distinctio itaque dolores perferendis error eaque ab libero a, vero veritatis minus ducimus. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore, doloribus. Lorem ipsum.</p>
+                            <div class="details">
+                                <div class="imgBx">
+                                    <img src="img5.jpg" alt="">
+                                </div>
+                                <h3>Someone famous <br><span>Creative Designer</span></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </section>
+    
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+          effect: 'coverflow',
+          grabCursor: true,
+          centeredSlides: true,
+          slidesPerView: 'auto',
+          coverflowEffect: {
+            rotate: 0,
+            stretch: 0,
+            depth: 100,
+            modifier: 2,
+            slideShadows: true,
+          },
+          loop: true,
+        });
+  </script>
+</body>
+</html>

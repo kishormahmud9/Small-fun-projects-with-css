@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:wght@200;300;400;500;600;700;800&family=Reggae+One&display=swap');
+body
+{
+    margin: 0;
+    padding: 0;
+}
+section
+{
+    position: relative;
+    height: 100vh;
+    display: flex;
+    background: #000;
+}
+section .screen
+{
+    position: relative;
+    flex-grow: 1;
+    justify-content: flex-end;
+    align-items: flex-end;
+    display: flex;
+    overflow: hidden;
+    transition: 1s;
+}
+section:hover .screen
+{
+    opacity: 0.1;
+}
+section .screen:hover
+{
+    flex-grow: 2;
+    opacity: 1;
+}
+section .screen:nth-child(1)
+{
+    background: url(img/Thor.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+section .screen:nth-child(2)
+{
+    background: url(img/Thor2.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+section .screen:nth-child(3)
+{
+    background: url(img/Thor3.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+section .screen .content
+{
+    position: absolute;
+    width: 400px;
+    height: auto;
+    background: #fff;
+    padding: 40px;
+    box-sizing: border-box;
+    transform: translateX(100%);
+    transition: 0.5s;
+    text-align: justify;
+}
+section .screen:hover .content
+{
+    transform: translateX(0);
+    transition-delay: 1s;
+}
+section .screen .content h2
+{
+    margin: 0;
+    padding: 0;
+    text-transform: uppercase;
+    font-family: 'Reggae One', cursive;
+    font-size: 50px;
+    color: brown;
+    display: inline-block;
+}
+section .screen .content h3
+{
+    margin: 0 0 20px 5px;
+    padding: 0;
+    font-family: 'Newsreader', serif;
+    font-size: 20px;
+    color: coral;
+}
+section .screen .content h4
+{
+    margin: 0 0 20px 10px;
+    padding: 0;
+    font-family: 'Newsreader', serif;
+    font-size: 30px;
+    color: coral;
+}
+section .screen .content p
+{
+    margin-top: 20px;
+    padding: 0;
+    font-family: 'Newsreader', serif;
+    font-size: 20px;
+    color: dimgray;
+}

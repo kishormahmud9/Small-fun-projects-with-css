@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Us</title>
+    <style>
+        *
+        {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .section
+        {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #095a55;
+        }
+        .section::before
+        {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+   <div class="section">
+       <div class="container">
+           <div class="contactInfo"></div>
+           <div class="contactForm"></div>
+       </div>
+   </div> 
+</body>
+</html>

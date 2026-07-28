@@ -1,0 +1,21 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <title>Document</title>
+     <link rel="stylesheet" href="style.css">
+ </head>
+ <body>
+     <Section>
+         <h2>Frosted Glass</h2>
+         <div class="glass"></div>
+     </Section>
+     <script>
+         document.addEventListener("mousemove", function(e){
+             const glass = document.querySelector('.glass');
+             glass.style.left = e.offsetX + 'px';
+             glass.style.top = e.offsetY + 'px';
+        })
+     </script>
+ </body>
+ </html>

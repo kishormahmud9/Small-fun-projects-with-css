@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>windmill animation</title>
+
+    <style>
+        :root {
+            --accent-gray: #CECCCC;
+        }
+
+        body {
+            background: #4BB4F4;
+        }
+
+        .box-canvas {
+            position: relative;
+            margin: auto;
+            display: block;
+            margin-top: 8%;
+            margin-bottom: 8%;
+            width: 600px;
+            height: 600px;
+        }
+
+        .box-canvas::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 200px;
+            background: #009958;
+            top: 450px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 50% 30%;
+        }
+
+        .pole {
+            position: absolute;
+            top: 150px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 400px;
+            background: linear-gradient(to right, var(--accent-gray), white, var(--accent-gray));
+        }
+
+        .blade::after {
+            content: '';
+            position: absolute;
+            bottom: 0px;
+            width: 200px;
+            height: 20px;
+            background: linear-gradient(white, var(--accent-gray) 40%, white);
+            clip-path: polygon(20% 0, 0% 100%, 100% 100%);
+        }
+
+        .blade {
+            position: absolute;
+            width: 20px;
+            height: 10px;
+            background: white;
+        }
+
+        .blade.one {
+            top: 140px;
+            left: 305px;
+        }
+
+        .blade.two {
+            top: 150px;
+            left: 275px;
+            transform: rotate(120deg);
+        }
+
+        .blade.three {
+            transform: rotate(240deg);
+            top: 120px;
+            left: 290px;
+        }
+
+        .blade-wrapper {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            animation: rotateBlades 5s infinite linear;
+        }
+
+        .blade-wrapper::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(white, var(--accent-gray));
+            border-radius: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 125px;
+        }
+
+        @keyframes rotateBlades {
+            0% {
+                transform: translateX(-50%);
+                transform-origin: 50% 140px;
+            }
+
+            100% {
+                transform: translateX(-50%) rotate(360deg);
+                transform-origin: 50% 140px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box-canvas">
+        <div class="pole"></div>
+        <div class="blade-wrapper">
+            <div class="blade one"></div>
+            <div class="blade two"></div>
+            <div class="blade three"></div>
+        </div>
+    </div>
+</body>
+
+</html>

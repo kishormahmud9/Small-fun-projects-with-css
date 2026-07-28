@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="calculator">
+        <input type="text" placeholder="0" id="outputScreen" />
+        <button onclick="allClear()">C</button>
+        <button onclick="del()"><i class="fa-solid fa-delete-left"></i></button>
+        <button onclick="display('%')">
+          <i class="fa-solid fa-percent"></i>
+        </button>
+        <button onclick="display('/')">
+          <i class="fa-solid fa-divide"></i>
+        </button>
+        <button onclick="display('7')"><i class="fa-solid fa-7"></i></button>
+        <button onclick="display('8')"><i class="fa-solid fa-8"></i></button>
+        <button onclick="display('9')"><i class="fa-solid fa-9"></i></button>
+        <button onclick="display('*')">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <button onclick="display('4')"><i class="fa-solid fa-4"></i></button>
+        <button onclick="display('5')"><i class="fa-solid fa-5"></i></button>
+        <button onclick="display('6')"><i class="fa-solid fa-6"></i></button>
+        <button onclick="display('-')">
+          <i class="fa-solid fa-minus"></i>
+        </button>
+        <button onclick="display('1')"><i class="fa-solid fa-1"></i></button>
+        <button onclick="display('2')"><i class="fa-solid fa-2"></i></button>
+        <button onclick="display('3')"><i class="fa-solid fa-3"></i></button>
+        <button onclick="display('+')"><i class="fa-solid fa-plus"></i></button>
+        <button onclick="display('.')">.</button>
+        <button onclick="display('0')">
+          <i class="fa-solid fa-face-smile"></i>
+        </button>
+        <button onclick="calculate()" class="equal">
+          <i class="fa-solid fa-equals"></i>
+        </button>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

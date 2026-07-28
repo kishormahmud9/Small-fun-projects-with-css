@@ -1,9 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Nav from "@/components/Nav";
-import Thumb from "@/components/Thumb";
-import CodeTabs from "@/components/CodeTabs";
-import LivePreview from "@/components/LivePreview";
+import ResponsiveSimulator from "@/components/playground/ResponsiveSimulator";
+import CodeEditorTabs from "@/components/playground/CodeEditorTabs";
+import EducationalBreakdown from "@/components/playground/EducationalBreakdown";
+import ProjectHeaderActions from "@/components/playground/ProjectHeaderActions";
+import ProjectCard from "@/components/ProjectCard";
+import BackgroundFX from "@/components/platform/BackgroundFX";
 import { projects, getProject } from "@/lib/data";
 
 export function generateStaticParams() {
@@ -14,16 +17,14 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
   const project = getProject(params.slug);
   if (!project) return {};
   return {
-    title: `${project.name} — CSS Lab`,
+    title: `${project.name} — CSS Playground`,
     description: project.description,
+    openGraph: {
+      title: `${project.name} — CSS Playground`,
+      description: project.description,
+    },
   };
 }
-
-const diffStyles: Record<string, string> = {
-  beginner: "bg-cyan/15 text-cyan",
-  intermediate: "bg-blue/15 text-blue",
-  advanced: "bg-pink/15 text-pink",
-};
 
 export default function ProjectDetail({ params }: { params: { slug: string } }) {
   const project = getProject(params.slug);
@@ -33,64 +34,129 @@ export default function ProjectDetail({ params }: { params: { slug: string } }) 
     .filter((p) => p.category === project.category && p.slug !== project.slug)
     .slice(0, 3);
 
+  const DIFF_COLORS: Record<string, string> = {
+    beginner:     "bg-emerald-500/15 text-emerald-300 border-emerald-500/35",
+    intermediate: "bg-blue-500/15 text-blue-300 border-blue-500/35",
+    advanced:     "bg-purple-500/15 text-purple-300 border-purple-500/35",
+  };
+
   return (
     <>
       <Nav />
-      <main className="mx-auto max-w-[980px] px-6 pb-28 pt-32">
-        <Link href="/#projects" className="mb-6 inline-flex items-center gap-2 text-[13.5px] text-text-dim hover:text-text">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m15 18-6-6 6-6" /></svg>
-          Back to all projects
-        </Link>
+      <BackgroundFX />
 
-        <div className="glass mb-8 aspect-[16/7] overflow-hidden rounded-lg">
-          <Thumb variant={project.thumbClass} />
+      <main className="mx-auto max-w-[1240px] px-6 pb-32 pt-28">
+
+        {/* ── Breadcrumb ──────────────────────────────────────── */}
+        <nav className="mb-8 flex items-center gap-2 font-mono text-xs text-zinc-500">
+          <Link href="/" className="hover:text-sky-400 transition-colors">Home</Link>
+          <span>/</span>
+          <Link href="/#projects" className="hover:text-sky-400 transition-colors">Experiments</Link>
+          <span>/</span>
+          <span className="text-zinc-300 truncate max-w-[200px]">{project.name}</span>
+        </nav>
+
+        {/* ── Project Header ──────────────────────────────────── */}
+        <div className="mb-8 flex flex-col lg:flex-row lg:items-start justify-between gap-8">
+          <div className="space-y-4 flex-1">
+            {/* Meta badges */}
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="rounded-full border border-zinc-700 bg-zinc-900 px-3 py-1 font-mono text-xs font-semibold text-zinc-300">
+                {project.category}
+              </span>
+              <span className={`rounded-full border px-3 py-1 font-mono text-xs font-semibold capitalize ${DIFF_COLORS[project.difficulty] ?? DIFF_COLORS.beginner}`}>
+                {project.difficulty}
+              </span>
+              <span className="font-mono text-xs text-zinc-500">
+                ⏱ Build Time: {project.buildTime}
+              </span>
+              {project.featured && (
+                <span className="rounded-full bg-amber-400/15 border border-amber-400/35 px-3 py-1 font-mono text-xs font-bold text-amber-300">
+                  ★ Featured
+                </span>
+              )}
+            </div>
+
+            <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
+              {project.name}
+            </h1>
+
+            <p className="max-w-3xl text-zinc-300 text-base leading-relaxed">
+              {project.longDescription}
+            </p>
+          </div>
+
+          <ProjectHeaderActions project={project} />
         </div>
 
-        <div className="mb-3 flex flex-wrap items-center gap-2">
-          <span className="rounded-md border border-border px-2.5 py-1 font-mono text-[11.5px] text-text-faint">
-            {project.category}
-          </span>
-          <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${diffStyles[project.difficulty]}`}>
-            {project.difficulty}
-          </span>
-          {project.tech.map((t) => (
-            <span key={t} className="rounded-md border border-border px-2.5 py-1 font-mono text-[11.5px] text-text-faint">
-              {t}
+        {/* ── CSS Concepts Bar ────────────────────────────────── */}
+        <div className="mb-10 flex flex-wrap items-center gap-2 rounded-xl border border-zinc-800/60 bg-zinc-900/40 px-4 py-3">
+          <span className="font-mono text-xs text-zinc-500 mr-1">// CSS Concepts:</span>
+          {project.cssConcepts.map((concept) => (
+            <span
+              key={concept}
+              className="rounded-lg bg-sky-500/8 border border-sky-500/25 px-3 py-1 font-mono text-xs text-sky-300"
+            >
+              #{concept}
             </span>
           ))}
         </div>
 
-        <h1 className="mb-4 font-display text-[2.2rem] font-bold">{project.name}</h1>
-        <p className="mb-10 max-w-[640px] text-[15px] leading-relaxed text-text-dim">
-          {project.longDescription}
-        </p>
-
-        <div className="mb-14 grid grid-cols-1 gap-6 lg:grid-cols-2">
-          <LivePreview code={project.code} />
-          <CodeTabs code={project.code} />
+        {/* ── Main Playground: Dual-panel ─────────────────────── */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
+          <div className="flex flex-col gap-3">
+            <h2 className="font-mono text-xs font-bold text-zinc-500 uppercase tracking-widest">
+              // Live Preview
+            </h2>
+            <ResponsiveSimulator code={project.code} />
+          </div>
+          <div className="flex flex-col gap-3">
+            <h2 className="font-mono text-xs font-bold text-zinc-500 uppercase tracking-widest">
+              // Source Code
+            </h2>
+            <CodeEditorTabs code={project.code} project={project} />
+          </div>
         </div>
 
+        {/* ── Learning Section ────────────────────────────────── */}
+        <EducationalBreakdown project={project} />
+
+        {/* ── Related Experiments ─────────────────────────────── */}
         {related.length > 0 && (
-          <div>
-            <h2 className="mb-5 font-display text-xl font-bold">More in {project.category}</h2>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-              {related.map((p) => (
-                <Link
-                  key={p.slug}
-                  href={`/projects/${p.slug}`}
-                  className="glass block overflow-hidden rounded-md transition-transform hover:-translate-y-1"
-                >
-                  <div className="aspect-[16/10]">
-                    <Thumb variant={p.thumbClass} />
-                  </div>
-                  <div className="p-4">
-                    <h3 className="text-[14.5px] font-semibold">{p.name}</h3>
-                  </div>
-                </Link>
+          <div className="mt-20 border-t border-zinc-800/60 pt-14">
+            <div className="mb-8 flex items-center justify-between">
+              <div>
+                <span className="block font-mono text-xs font-bold text-sky-400 mb-1 uppercase tracking-widest">
+                  // Related
+                </span>
+                <h2 className="font-display text-2xl font-bold text-white">
+                  More in {project.category}
+                </h2>
+              </div>
+              <Link
+                href="/#projects"
+                className="text-xs font-semibold text-sky-400 hover:underline font-mono"
+              >
+                View all →
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {related.map((p, i) => (
+                <ProjectCard key={p.slug} project={p} index={i} />
               ))}
             </div>
           </div>
         )}
+
+        {/* ── Back link ───────────────────────────────────────── */}
+        <div className="mt-16 pt-8 border-t border-zinc-800/40 text-center">
+          <Link
+            href="/#projects"
+            className="inline-flex items-center gap-2 rounded-full border border-zinc-700 bg-zinc-900/80 px-6 py-3 font-semibold text-sm text-zinc-300 hover:border-sky-400/60 hover:text-white transition-all"
+          >
+            ← Back to all {projects.length} experiments
+          </Link>
+        </div>
       </main>
     </>
   );

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Strength Checker</title>
+    <style>
+        *
+        {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body
+        {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #222;
+        }
+        .container
+        {
+            position: relative;
+            width: 400px;
+            padding: 30px;
+            background: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            border: 1px solid #111;
+            gap: 10px;
+            padding-bottom: 70px;
+            -webkit-box-reflect: below 1px linear-gradient(transparent, transparent, #0005);
+        }
+        .container h2
+        {
+            color: #666;
+            font-weight: 500;
+        }
+        .container .inputBox
+        {
+            position: relative;
+            width: 100%;
+        }
+        .container .inputBox input
+        {
+            position: relative;
+            width: 100%;
+            background: #222;
+            border: none;
+            outline: none;
+            padding: 10px;
+            color: #fff;
+            font-size: 1.1em;
+        }
+        .container .strengthMeter
+        {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #222;
+        }
+        .container .strengthMeter::before
+        {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 100%;
+            transition: 0.5s;
+            background: #f00;
+        }
+        .container.weak .strengthMeter::before
+        {
+            width: 10%;
+            background: #f00;
+            filter: drop-shadow(0 0 5px #f00) drop-shadow(0 0 10px #f00) drop-shadow(0 0 20px #f00);
+        }
+        .container.medium .strengthMeter::before
+        {
+            width: 66.66%;
+            background: #ffa500;
+            filter: drop-shadow(0 0 5px #ffa500) drop-shadow(0 0 10px #ffa500) drop-shadow(0 0 20px #ffa500);
+        }
+        .container.strong .strengthMeter::before
+        {
+            width: 100%;
+            background: #0f0;
+            filter: drop-shadow(0 0 5px #0f0) drop-shadow(0 0 10px #0f0) drop-shadow(0 0 20px #0f0);
+        }
+        .container .strengthMeter::after
+        {
+            position: absolute;
+            top: -45px;
+            left: 30px;
+            color: #fff;
+            transition: 0.5s;
+        }
+        .container.weak .strengthMeter::after
+        {
+            content: 'Your Password is Weak';
+            color: #f00;
+            filter: drop-shadow(0 0 5px #f00);
+        }
+        .container.medium .strengthMeter::after
+        {
+            content: 'Your Password is Medium';
+            color: #ffa500;
+            filter: drop-shadow(0 0 5px #ffa500);
+        }
+        .container.strong .strengthMeter::after
+        {
+            content: 'Your Password is Strong';
+            color: #0f0;
+            filter: drop-shadow(0 0 5px #0f0);
+        }
+        .show
+        {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60px;
+            height: 100%;
+            background: #333;
+            border: 6px solid #222;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .show::before
+        {
+            content: 'Show';
+            font-size: 0.6em;
+            color: #fff;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+        .show.hide::before
+        {
+            content: 'Hide';
+        }
+
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <h2>Password Strngth Check</h2>
+        <div class="inputBox">
+            <input type="password" placeholder="password" id="myPassword">
+            <div class="show"></div>
+        </div>
+        <div class="strengthMeter"></div>
+    </div>
+
+    <script>
+        function Strength(password){
+            let i = 0;
+            if(password.length > 6){
+                i++;
+            }
+            if(password.length >= 10){
+                i++;
+            }
+            if(/[A-Z]/.test(password)){
+                i++;
+            }
+            if(/[0-9]/.test(password)){
+                i++;
+            }
+            if(/[A-Za-z0-8]/.test(password)){
+                i++;
+            }
+            return i;
+        }
+
+        const container = document.querySelector('.container');
+        document.addEventListener('keyup', function(e){
+            const password = document.querySelector('#myPassword').value;
+
+            const strength = Strength(password);
+            if(strength <= 2){
+                container.classList.add('weak');
+                container.classList.remove('medium');
+                container.classList.remove('strongth');
+            } else if(strength >= 2 && strength <= 4){
+                container.classList.remove('weak');
+                container.classList.add('medium');
+                container.classList.remove('strongth');
+            } else {
+                container.classList.remove('weak');
+                container.classList.remove('medium');
+                container.classList.add('strong');
+            }
+        })
+
+        const pswrd = document.querySelector('#myPassword');
+        const show = document.querySelector('.show');
+        show.onclick = function(){
+            if(pswrd.type === 'password'){
+                pswrd.setAttribute('type', 'text');
+                show.classList.add('hide');
+            }
+            else
+            {
+                pswrd.setAttribute('type', 'password');
+                show.classList.remove('hide');
+            }
+        }
+    </script>
+</body>
+</html>

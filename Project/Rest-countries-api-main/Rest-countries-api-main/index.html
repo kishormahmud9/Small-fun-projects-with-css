@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rest Countries API</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+
+    <h2 class="text-center mt-5 mb-3">Search Countries</h2>
+    
+    <div class="input-group mb-5 w-25 m-auto">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search Country" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <button onclick="searchButton()" class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+    </div>
+    <div class="message d-none">
+        <h3 class="text-center">Input Field Can not be empty.</h3>
+    </div>
+    <div class="details">
+        <div class="w-25 m-auto country-details">
+
+        </div>
+    </div>
+    <div class="container">
+        <div class="row search-result">
+
+        </div>
+    </div>
+    <div class="container">
+        <div class="row all-country">
+            <!-- <div class="col-md-3 country-box">
+                <div class="card" style="width: 18rem;">
+                    <img src="https://picsum.photos/200/300" height="200px" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">Card title</h5>
+                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                      <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                  </div>
+            </div> -->
+        </div>
+    </div>
+
+
+    <script>
+
+        // Search Function
+        const searchButton = () =>{
+            
+            const searchInput = document.getElementById('searchInput');
+            const searchText = searchInput.value;
+            searchInput.value = '';
+            const allCountry = document.querySelector('.all-country');
+            allCountry.textContent = '';
+            const countryDetails = document.querySelector('.country-details');
+            countryDetails.textContent = '';
+            const url = `https://restcountries.com/v3.1/name/${searchText}`;
+            fetch(url)
+            .then(res => res.json())
+            .then(countries => {
+                // console.log(countries);
+                const searchContainer = document.querySelector('.search-result');
+                searchContainer.textContent = '';          
+                countries.forEach(country => {
+                    // console.log(country);
+                    const div = document.createElement('div');
+                    div.classList = 'col-md-3';
+                    div.innerHTML = `
+                    <div class="card my-3 bg-dark text-white" style="width: 18rem;">
+                        <img src="${country.flags.png}" height="150px" class="card-img-top" alt="...">
+                        <div class="card-body">
+                        <h5 class="card-title">${country.name.common}</h5>
+                        <a href="#" onclick="getDetails('${country.name.common}')" class="btn btn-primary">More Detals</a>
+                        </div>
+                    </div>
+                `; 
+                searchContainer.appendChild(div);
+                })
+            })
+
+        }
+        
+
+
+        // get all Data to data
+        const getData = () =>
+        {
+            const url ='https://restcountries.com/v3.1/all'
+            fetch(url)
+            .then(res => res.json())
+            .then(countries => {
+                const container = document.querySelector('.all-country');
+            container.textContent = '';
+            countries.forEach(country => {
+                // console.log(country);
+                const div = document.createElement('div');
+                div.classList = 'col-md-3'
+                div.innerHTML = `
+                <div class="card my-3 bg-dark text-white" style="width: 18rem;">
+                    <img src="${country.flags.png}" height="150px" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">${country.name.common}</h5>
+                      <a href="#" onclick="getDetails('${country.name.common}')" class="btn btn-primary m-auto">More Detals</a>
+                    </div>
+                  </div>
+                `; 
+                container.appendChild(div);
+            })
+            })
+        }
+        getData();
+
+        // const displayData = countries => {
+        //     // console.log(countries);
+        //     const container = document.querySelector('.all-country');
+        //     container.textContent = '';
+        //     countries.forEach(country => {
+        //         // console.log(country);
+        //         const div = document.createElement('div');
+        //         div.classList = 'col-md-3'
+        //         div.innerHTML = `
+        //         <div class="card my-3 bg-dark text-white" style="width: 18rem;">
+        //             <img src="${country.flags.png}" height="150px" class="card-img-top" alt="...">
+        //             <div class="card-body">
+        //               <h5 class="card-title">${country.name.common}</h5>
+        //               <a href="#" onclick="getDetails('${country.name.common}')" class="btn btn-primary">More Detals</a>
+        //             </div>
+        //           </div>
+        //         `; 
+        //         container.appendChild(div);
+        //     })
+        // }
+
+
+
+
+
+        // Country Details
+        const getDetails = name => {
+            const url = `https://restcountries.com/v3.1/name/${name}`;
+            fetch(url)
+            .then(res => res.json())
+            .then(data => displayDetails(data))
+        }
+
+        const displayDetails = countries => {
+            // console.log(countries);
+            const details = document.querySelector('.details');
+            // details.textContent = '';
+            countries.forEach(country => {
+                // console.log(country);
+                // const div = document.createElement('div');
+                // div.classList = 'w-25 m-auto my-5';
+                const div = document.querySelector('.country-details');
+                div.innerHTML = `
+                <div class="card bg-dark text-white">
+                <img src="${country.flags.png}" height="250px" class="card-img-top" alt="...">
+                <h3 class="text-center my-3">${country.name.common}</h3>
+                <div class="card-body">
+                    <h5 class="card-title">Capital: ${country.capital}</h5>
+                    <p class="card-text">Area: ${country.area}</p>
+                    <p class="card-text">Continents: ${country.continents}</p>
+                    <p class="card-text">Population: ${country.population}</p>
+                    <p>Language: ${Object.values(country.languages)}</p>
+                    <p>Curency: ${country.currencies[Object.keys(country.currencies)].name}</p>
+                    <p class="card-text">Region: ${country.region}</p>
+                    <p class="card-text">Sub Region: ${country.subregion}</p>
+                    <p class="card-text">Timezone: ${country.timezones[0]}</p>
+                </div>
+                </div>
+                `;
+                details.appendChild(div);
+            })
+        }
+    </script>
+
+</body>
+</html>
+
+<!-- <img src="${country.coatOfArms.png}" /> -->
